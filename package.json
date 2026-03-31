@@ -1,33 +1,45 @@
 {
   "name": "autodarts-mqtt-module",
-  "version": "1.0.0",
-  "description": "MQTT module for Autodarts Hub - publishes game events to MQTT broker",
+  "version": "2.0.0",
+  "description": "SDK-conformant MQTT module for Autodarts Hub - publishes game events to MQTT broker",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node src/index.ts",
+    "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
     "lint": "eslint src/**/*.ts",
-    "test": "jest"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "autodarts",
     "mqtt",
     "darts",
     "home-assistant",
-    "iot"
+    "iot",
+    "module"
   ],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@autodarts-hub/module-sdk": "file:../AutodartsClient/module-sdk",
     "mqtt": "^5.3.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
-    "typescript": "^5.3.0"
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.2.0"
   },
-  "peerDependencies": {
-    "autodarts-hub": "^1.0.0"
-  }
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
 }

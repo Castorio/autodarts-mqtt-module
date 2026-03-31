@@ -4,24 +4,80 @@ node_modules/
 # Build output
 dist/
 
-# IDE
+# TypeScript cache
+*.tsbuildinfo
+
+# IDE and editors
 .idea/
 .vscode/
 *.swp
 *.swo
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
 
-# OS
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+Desktop.ini
 
 # Logs
 *.log
+logs/
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
-# Environment
+# Environment and secrets
 .env
 .env.local
 .env.*.local
+.env.development
+.env.test
+.env.production
+*.pem
+*.key
+credentials.json
+secrets.json
 
 # Test coverage
 coverage/
+.nyc_output/
+
+# Cache directories
+.cache/
+.parcel-cache/
+.eslintcache
+.npm/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Debug
+*.pid
+*.seed
+*.pid.lock
+
+# Package manager lock files (keep package-lock.json, ignore others)
+yarn.lock
+pnpm-lock.yaml
+
+# Autodarts specific
+.claudeclaw.json

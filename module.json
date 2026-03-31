@@ -1,0 +1,293 @@
+{
+  "id": "mqtt",
+  "name": "MQTT Integration",
+  "version": "2.0.0",
+  "description": "Publishes Autodarts game events to an MQTT broker for Home Assistant and other smart home integrations.",
+  "author": "IO-Darts-Agent Team",
+  "repository": "https://github.com/autodarts/autodarts-mqtt-module",
+  "entry": "dist/index.js",
+  "events": [
+    "match.started",
+    "match.finished",
+    "match.finish",
+    "match.deleted",
+    "throw.detected",
+    "throw.triple",
+    "throw.double",
+    "throw.bull",
+    "throw.bullseye",
+    "throw.180",
+    "throw.highfinish",
+    "throw.miss",
+    "player.changed",
+    "turn.started",
+    "turn.finished",
+    "takeout.started",
+    "takeout.finished",
+    "game.finished",
+    "match.state"
+  ],
+  "eventMeta": {
+    "match.started": {
+      "label": { "de": "Match gestartet", "en": "Match started", "es": "Partido iniciado" },
+      "description": { "de": "Wird ausgelöst wenn ein neues Match beginnt", "en": "Triggered when a new match starts", "es": "Se activa cuando comienza un nuevo partido" }
+    },
+    "match.finished": {
+      "label": { "de": "Match beendet", "en": "Match finished", "es": "Partido terminado" },
+      "description": { "de": "Wird ausgelöst wenn ein Match zu Ende ist", "en": "Triggered when a match ends", "es": "Se activa cuando termina un partido" }
+    },
+    "match.finish": {
+      "label": { "de": "Match verlassen", "en": "Match left", "es": "Partido abandonado" },
+      "description": { "de": "Benutzer klickt auf Beenden (nach der Ergebnisanzeige)", "en": "User clicks finish (after results screen)", "es": "El usuario hace clic en finalizar" }
+    },
+    "match.deleted": {
+      "label": { "de": "Match abgebrochen", "en": "Match cancelled", "es": "Partido cancelado" },
+      "description": { "de": "Match wurde abgebrochen", "en": "Match was cancelled", "es": "El partido fue cancelado" }
+    },
+    "throw.detected": {
+      "label": { "de": "Wurf erkannt", "en": "Throw detected", "es": "Tiro detectado" },
+      "description": { "de": "Ein Wurf wurde erkannt", "en": "A throw was detected", "es": "Se detectó un tiro" }
+    },
+    "throw.triple": {
+      "label": { "de": "Triple getroffen", "en": "Triple hit", "es": "Triple golpeado" },
+      "description": { "de": "Ein Triple-Feld wurde getroffen", "en": "A triple field was hit", "es": "Se golpeó un campo triple" }
+    },
+    "throw.double": {
+      "label": { "de": "Double getroffen", "en": "Double hit", "es": "Doble golpeado" },
+      "description": { "de": "Ein Double-Feld wurde getroffen", "en": "A double field was hit", "es": "Se golpeó un campo doble" }
+    },
+    "throw.bull": {
+      "label": { "de": "Single Bull", "en": "Single Bull", "es": "Bull simple" },
+      "description": { "de": "Das äußere Bull wurde getroffen (25)", "en": "The outer bull was hit (25)", "es": "Se golpeó el bull exterior (25)" }
+    },
+    "throw.bullseye": {
+      "label": { "de": "Bullseye!", "en": "Bullseye!", "es": "¡Bullseye!" },
+      "description": { "de": "Das Bullseye wurde getroffen (50)", "en": "The bullseye was hit (50)", "es": "Se golpeó el bullseye (50)" }
+    },
+    "throw.180": {
+      "label": { "de": "180!", "en": "180!", "es": "¡180!" },
+      "description": { "de": "Eine perfekte 180 wurde geworfen", "en": "A perfect 180 was thrown", "es": "Se lanzó un 180 perfecto" }
+    },
+    "throw.highfinish": {
+      "label": { "de": "High Finish", "en": "High Finish", "es": "High Finish" },
+      "description": { "de": "Ein Checkout über 100 Punkte", "en": "A checkout over 100 points", "es": "Un checkout de más de 100 puntos" }
+    },
+    "throw.miss": {
+      "label": { "de": "Fehlwurf", "en": "Miss", "es": "Fallo" },
+      "description": { "de": "Die Scheibe wurde verfehlt", "en": "The board was missed", "es": "Se falló el tablero" }
+    },
+    "player.changed": {
+      "label": { "de": "Spielerwechsel", "en": "Player changed", "es": "Cambio de jugador" },
+      "description": { "de": "Der aktive Spieler hat gewechselt", "en": "The active player has changed", "es": "El jugador activo ha cambiado" }
+    },
+    "turn.started": {
+      "label": { "de": "Aufnahme gestartet", "en": "Turn started", "es": "Turno iniciado" },
+      "description": { "de": "Ein Spieler beginnt seine Aufnahme", "en": "A player starts their turn", "es": "Un jugador comienza su turno" }
+    },
+    "turn.finished": {
+      "label": { "de": "Aufnahme beendet", "en": "Turn finished", "es": "Turno terminado" },
+      "description": { "de": "Ein Spieler beendet seine Aufnahme", "en": "A player finishes their turn", "es": "Un jugador termina su turno" }
+    },
+    "takeout.started": {
+      "label": { "de": "Pfeile ziehen", "en": "Pulling darts", "es": "Sacando dardos" },
+      "description": { "de": "Die Pfeile werden aus der Scheibe gezogen", "en": "Darts are being pulled from the board", "es": "Los dardos se están sacando del tablero" }
+    },
+    "takeout.finished": {
+      "label": { "de": "Pfeile gezogen", "en": "Darts pulled", "es": "Dardos sacados" },
+      "description": { "de": "Die Pfeile wurden aus der Scheibe gezogen", "en": "Darts have been pulled from the board", "es": "Los dardos han sido sacados del tablero" }
+    },
+    "game.finished": {
+      "label": { "de": "Leg beendet", "en": "Leg finished", "es": "Leg terminado" },
+      "description": { "de": "Ein Leg wurde beendet", "en": "A leg has been finished", "es": "Se ha terminado un leg" }
+    },
+    "match.state": {
+      "label": { "de": "Spielstand aktualisiert", "en": "Game state updated", "es": "Estado actualizado" },
+      "description": { "de": "Der Spielstand wurde aktualisiert", "en": "The game state was updated", "es": "El estado del juego fue actualizado" }
+    }
+  },
+  "eventGroups": [
+    {
+      "title": { "de": "Match Events", "en": "Match Events", "es": "Eventos de Partido" },
+      "events": ["match.started", "match.finished", "match.finish", "match.deleted", "match.state"]
+    },
+    {
+      "title": { "de": "Wurf Events", "en": "Throw Events", "es": "Eventos de Tiro" },
+      "events": ["throw.detected", "throw.triple", "throw.double", "throw.bull", "throw.bullseye", "throw.180", "throw.highfinish", "throw.miss"]
+    },
+    {
+      "title": { "de": "Spieler Events", "en": "Player Events", "es": "Eventos de Jugador" },
+      "events": ["player.changed", "turn.started", "turn.finished"]
+    },
+    {
+      "title": { "de": "Board Events", "en": "Board Events", "es": "Eventos del Tablero" },
+      "events": ["takeout.started", "takeout.finished", "game.finished"]
+    }
+  ],
+  "config": {
+    "broker": {
+      "type": "string",
+      "label": "MQTT Broker URL",
+      "description": "The URL of the MQTT broker (e.g., mqtt://192.168.1.100:1883)",
+      "required": true,
+      "default": ""
+    },
+    "username": {
+      "type": "string",
+      "label": "Username",
+      "description": "MQTT broker username (optional)",
+      "required": false,
+      "default": ""
+    },
+    "password": {
+      "type": "password",
+      "label": "Password",
+      "description": "MQTT broker password (optional)",
+      "required": false,
+      "default": ""
+    },
+    "baseTopic": {
+      "type": "string",
+      "label": "Base Topic",
+      "description": "Base MQTT topic for all messages",
+      "default": "autodarts"
+    },
+    "homeAssistant": {
+      "type": "boolean",
+      "label": "Home Assistant Discovery",
+      "description": "Enable Home Assistant MQTT auto-discovery",
+      "default": true
+    },
+    "clientId": {
+      "type": "string",
+      "label": "Client ID",
+      "description": "Custom MQTT client identifier (optional)",
+      "required": false,
+      "default": ""
+    }
+  },
+  "intents": {
+    "actions": [
+      {
+        "type": "publish",
+        "label": "Publish Message",
+        "description": "Publish a custom message to a topic",
+        "configSchema": {
+          "topic": { "type": "string", "label": "Topic", "default": "custom/event" },
+          "message": { "type": "string", "label": "Message", "default": "{}" },
+          "retain": { "type": "boolean", "label": "Retain Message", "default": false }
+        }
+      }
+    ],
+    "defaultSubscriptions": []
+  },
+  "i18n": {
+    "en": {
+      "name": "MQTT Integration",
+      "description": "Publishes Autodarts game events to an MQTT broker for Home Assistant and other smart home integrations.",
+      "config": {
+        "broker": {
+          "label": "MQTT Broker URL",
+          "description": "The URL of the MQTT broker (e.g., mqtt://192.168.1.100:1883)"
+        },
+        "username": {
+          "label": "Username",
+          "description": "MQTT broker username (optional)"
+        },
+        "password": {
+          "label": "Password",
+          "description": "MQTT broker password (optional)"
+        },
+        "baseTopic": {
+          "label": "Base Topic",
+          "description": "Base MQTT topic for all messages"
+        },
+        "homeAssistant": {
+          "label": "Home Assistant Discovery",
+          "description": "Enable Home Assistant MQTT auto-discovery"
+        },
+        "clientId": {
+          "label": "Client ID",
+          "description": "Custom MQTT client identifier (optional)"
+        }
+      },
+      "strings": {
+        "connectionSuccess": "Successfully connected to MQTT broker!",
+        "connectionFailed": "Failed to connect to MQTT broker",
+        "testConnection": "Test Connection",
+        "topicList": "Published Topics"
+      }
+    },
+    "de": {
+      "name": "MQTT Integration",
+      "description": "Veröffentlicht Autodarts-Spielereignisse an einen MQTT-Broker für Home Assistant und andere Smart-Home-Integrationen.",
+      "config": {
+        "broker": {
+          "label": "MQTT Broker URL",
+          "description": "Die URL des MQTT-Brokers (z.B. mqtt://192.168.1.100:1883)"
+        },
+        "username": {
+          "label": "Benutzername",
+          "description": "MQTT-Broker Benutzername (optional)"
+        },
+        "password": {
+          "label": "Passwort",
+          "description": "MQTT-Broker Passwort (optional)"
+        },
+        "baseTopic": {
+          "label": "Basis-Topic",
+          "description": "Basis-MQTT-Topic für alle Nachrichten"
+        },
+        "homeAssistant": {
+          "label": "Home Assistant Discovery",
+          "description": "Home Assistant MQTT Auto-Discovery aktivieren"
+        },
+        "clientId": {
+          "label": "Client ID",
+          "description": "Benutzerdefinierte MQTT-Client-Kennung (optional)"
+        }
+      },
+      "strings": {
+        "connectionSuccess": "Erfolgreich mit MQTT-Broker verbunden!",
+        "connectionFailed": "Verbindung zum MQTT-Broker fehlgeschlagen",
+        "testConnection": "Verbindung testen",
+        "topicList": "Veröffentlichte Topics"
+      }
+    },
+    "es": {
+      "name": "Integración MQTT",
+      "description": "Publica eventos de juego de Autodarts a un broker MQTT para Home Assistant y otras integraciones de hogar inteligente.",
+      "config": {
+        "broker": {
+          "label": "URL del Broker MQTT",
+          "description": "La URL del broker MQTT (ej. mqtt://192.168.1.100:1883)"
+        },
+        "username": {
+          "label": "Usuario",
+          "description": "Usuario del broker MQTT (opcional)"
+        },
+        "password": {
+          "label": "Contraseña",
+          "description": "Contraseña del broker MQTT (opcional)"
+        },
+        "baseTopic": {
+          "label": "Topic Base",
+          "description": "Topic MQTT base para todos los mensajes"
+        },
+        "homeAssistant": {
+          "label": "Descubrimiento Home Assistant",
+          "description": "Habilitar auto-descubrimiento MQTT de Home Assistant"
+        },
+        "clientId": {
+          "label": "ID de Cliente",
+          "description": "Identificador de cliente MQTT personalizado (opcional)"
+        }
+      },
+      "strings": {
+        "connectionSuccess": "¡Conectado exitosamente al broker MQTT!",
+        "connectionFailed": "Error al conectar con el broker MQTT",
+        "testConnection": "Probar Conexión",
+        "topicList": "Topics Publicados"
+      }
+    }
+  }
+}
