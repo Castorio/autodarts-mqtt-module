@@ -166,6 +166,17 @@
     }
   },
   "intents": {
+    "emits": [
+      {
+        "id": "mqtt.message.published",
+        "description": "Emitted when an MQTT message is successfully published",
+        "category": "mqtt",
+        "payload": {
+          "topic": { "type": "string", "description": "The MQTT topic the message was published to" },
+          "eventType": { "type": "string", "description": "The Autodarts event type that triggered this message" }
+        }
+      }
+    ],
     "actions": [
       {
         "type": "publish",

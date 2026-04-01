@@ -68,7 +68,15 @@ export class MqttModule extends AutodartsModule {
     }
 
     try {
-      await this.handler.handleEvent(event);
+      const publishedTopics = await this.handler.handleEvent(event);
+
+      // Emit intent for each published topic
+      for (const topic of publishedTopics) {
+        this.emitIntent('mqtt.message.published', {
+          topic,
+          eventType: event.type,
+        });
+      }
     } catch (error) {
       const err = error as Error;
       this.log('error', `Failed to handle event: ${err.message}`, { event: event.type });

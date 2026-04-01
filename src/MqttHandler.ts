@@ -17,6 +17,11 @@ export interface MqttHandlerLoggerInterface {
 }
 
 /**
+ * Callback for when a message is published
+ */
+export type OnPublishCallback = (topic: string, eventType: string) => void;
+
+/**
  * MqttHandler - Main handler for the MQTT module
  */
 export class MqttHandler {
@@ -24,6 +29,7 @@ export class MqttHandler {
   private client: MqttClient;
   private eventMapper: EventMapper;
   private logger: MqttHandlerLoggerInterface | null = null;
+  private onPublishCallback: OnPublishCallback | null = null;
 
   // Statistics
   private stats = {
@@ -50,6 +56,13 @@ export class MqttHandler {
   setLogger(logger: MqttHandlerLoggerInterface | null): void {
     this.logger = logger;
     this.client.setLogger(logger as MqttLoggerInterface | null);
+  }
+
+  /**
+   * Set callback for when a message is published
+   */
+  onPublish(callback: OnPublishCallback): void {
+    this.onPublishCallback = callback;
   }
 
   /**
@@ -107,9 +120,11 @@ export class MqttHandler {
 
   /**
    * Handle incoming event from SDK
+   * Returns an array of published topics (for intent emission)
    */
-  async handleEvent(event: ParsedEvent): Promise<void> {
+  async handleEvent(event: ParsedEvent): Promise<string[]> {
     this.stats.eventsProcessed++;
+    const publishedTopics: string[] = [];
 
     try {
       // Map event to MQTT actions
@@ -117,21 +132,31 @@ export class MqttHandler {
 
       // Execute all actions
       for (const action of actions) {
-        await this.executeAction(action);
+        const topic = await this.executeAction(action);
+        if (topic) {
+          publishedTopics.push(topic);
+          // Call the publish callback if set
+          if (this.onPublishCallback) {
+            this.onPublishCallback(topic, event.type);
+          }
+        }
       }
     } catch (error) {
       this.stats.errors++;
       const err = error as Error;
       this.log('Error processing event', { error: err.message, event: event.type });
     }
+
+    return publishedTopics;
   }
 
   /**
    * Execute a single MQTT action
+   * Returns the topic if successfully published, null otherwise
    */
-  private async executeAction(action: MqttAction): Promise<void> {
+  private async executeAction(action: MqttAction): Promise<string | null> {
     if (action.type === 'none' || !action.topic) {
-      return;
+      return null;
     }
 
     try {
@@ -139,10 +164,12 @@ export class MqttHandler {
         retain: action.retain ?? false,
       });
       this.stats.messagesPublished++;
+      return action.topic;
     } catch (error) {
       this.stats.errors++;
       const err = error as Error;
       this.log('Failed to publish', { error: err.message, topic: action.topic });
+      return null;
     }
   }
 
