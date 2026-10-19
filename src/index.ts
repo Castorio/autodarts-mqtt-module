@@ -5,6 +5,8 @@
  * for Home Assistant and other smart home integrations.
  */
 
+import { isEntryPoint } from './isEntryPoint.js';
+
 // Main module class
 export { MqttModule } from './MqttModule.js';
 export { default } from './MqttModule.js';
@@ -37,7 +39,7 @@ export type {
 export { DEFAULT_CONFIG } from './types.js';
 
 // Entrypoint for running as standalone module
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isEntryPoint(import.meta.url, process.argv[1])) {
   const { MqttModule } = await import('./MqttModule.js');
   const module = new MqttModule();
   module.start().catch((err) => {
